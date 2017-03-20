@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import DocumentCard from './DocumentCard';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
 import './Body.css';
 
 export default class Body extends Component {
@@ -41,6 +43,9 @@ export default class Body extends Component {
             <DocumentCard document={doc} />
           )}
         </div>
+        <FloatingActionButton className="absolute-fab">  
+          <FontIcon className="material-icons">add</FontIcon>
+        </FloatingActionButton>
       </div >
     );
   }
