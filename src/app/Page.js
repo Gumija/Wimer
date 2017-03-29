@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Body from './Body';
 import './Page.css';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
 
 export default class Page extends Component {
 
   render() {
     return (
-      <div>
-        <Header />
-        <Body />
-      </div>
+      <Router >
+        <div>
+          <Header />
+          <Body />
+        </div>
+      </Router>
     );
   }
 }

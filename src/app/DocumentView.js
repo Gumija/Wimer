@@ -12,8 +12,13 @@ export default class DocumentView extends Component {
     return (
       /* Used to center stuff. This will be Navigated */
       <div className="body">
-        <p className="section-header">Document {this.props.match.params.id}</p>
+        <p className="section-header">{this.props.document.title}</p>
+        <p>{this.props.document.file}</p>
       </div >
     );
   }
+}
+
+DocumentView.propTypes = {
+  document: React.PropTypes.object.isRequired,
 }

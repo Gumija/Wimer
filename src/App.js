@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Page from './app/Page';
+import { Provider as MobxProvider } from 'mobx-react';
+import DocumentStore from './app/stores/DocumentStore';
 
-@observer
+
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider>
-        <Page />
-      </MuiThemeProvider>
+      <MobxProvider documentStore={DocumentStore}>
+        <MuiThemeProvider>
+          <Page />
+        </MuiThemeProvider>
+      </MobxProvider>
     );
   }
 }

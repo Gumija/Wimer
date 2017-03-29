@@ -4,25 +4,11 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import './Home.css';
 
-export default class Home extends Component {
+import {inject, observer} from 'mobx-react';
 
-  constructor() {
-    super();
-    let doc = (i) => {return {
-      id: i,
-      title: "Analízis II.",
-      preview: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nisl metus, imperdiet sed varius vel, venenatis in elit. Duis faucibus ultrices nisi, in semper sapien feugiat non. Mauris auctor nulla eget suscipit commodo. Fusce scelerisque eros erat, non cursus lacus facilisis non. Nunc elementum euismod neque et tincidunt. ",
-      last_opened: new Date()
-    };};
-    this.state = {
-      recent: [
-        doc(1), doc(2), doc(3)
-      ],
-      uploads: [
-        doc(6), doc(5), doc(4)
-      ]
-    }
-  }
+@inject("documentStore")
+@observer
+export default class Home extends Component {
 
   componentWillMount() {
 
@@ -34,13 +20,13 @@ export default class Home extends Component {
       <div className="body">
         <p className="section-header">Recent</p>
         <div className="card-container">
-          {this.state.recent.map((doc) =>
+          {this.props.documentStore.recentDocs.map((doc) =>
             <DocumentCard document={doc} key={doc.id}/>
           )}
         </div>
         <p className="section-header">Uploads</p>
         <div className="card-container">
-          {this.state.uploads.map((doc) =>
+          {this.props.documentStore.uploadedDocs.map((doc) =>
             <DocumentCard document={doc}  key={doc.id}/>
           )}
         </div>
