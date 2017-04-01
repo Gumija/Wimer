@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Body.css';
+import './Body.css';
 import {
   Route
 } from 'react-router-dom';

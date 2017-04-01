@@ -17,7 +17,7 @@ export default class Home extends Component {
   render() {
     return (
       /* Used to center stuff. This will be Navigated */
-      <div className="body">
+      <div className="home-container">
         <p className="section-header">Recent</p>
         <div className="card-container">
           {this.props.documentStore.recentDocs.map((doc) =>
