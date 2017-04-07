@@ -1,3 +1,9 @@
 .txtPresenter {
   white-space: pre-wrap; 
 }
+
+
+.document-view-container{
+  margin-left: 10%;
+  margin-right: 10%;
+}
