@@ -6,11 +6,6 @@ class FileService {
     let text = atob(LoremIpsum.substr(23))
     return text;
   }
-
-  reqListener(e) {
-    let data = this.responseText;
-}
-
 }
 
 var fileService = new FileService();

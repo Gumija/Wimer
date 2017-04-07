@@ -10,10 +10,6 @@ import { withRouter } from 'react-router-dom';
 @observer
 export default class DocumentViewContainer extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     // Load file into document object
     // eslint-disable-next-line
