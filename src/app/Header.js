@@ -11,7 +11,6 @@ import UserManagement from './HeaderModules/UserManagement';
 import {
   Route,
   withRouter,
-  Link,
 } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
@@ -35,7 +34,7 @@ export default class Header extends Component {
           <AppBar
             title='Wimer'
             iconElementLeft={
-              <Link to={`/document/1`}><IconButton><MenuIcon /></IconButton></Link>
+              <IconButton><MenuIcon /></IconButton>
             }
             style={{ position: 'fixed', top: 0 }} />
         } />
@@ -43,12 +42,20 @@ export default class Header extends Component {
           <AppBar
             title={props.match ?
               <div >
-                <p style={{ margin: 0, display: 'inline-block' }}>
-                  {this.props.documentStore.docInfos.find((d) => d.id == props.match.params.id).title}
-                </p>
-                <IconButton>
-                  <FontIcon className="material-icons" color={'white'}>edit</FontIcon>
-                </IconButton>
+                {this.props.documentStore.docInfos.find((d) => d.id === props.match.params.id) ?
+                  <div>
+                    <p style={{ margin: 0, display: 'inline-block' }}>
+                      {this.props.documentStore.docInfos.find((d) => d.id === props.match.params.id).title}
+                    </p>
+                    <IconButton>
+                      <FontIcon className="material-icons" color={'white'}>edit</FontIcon>
+                    </IconButton>
+                  </div>
+
+                  :
+
+                  'Loading ...'
+                }
               </div>
               : "NULL"}
             iconElementLeft={

@@ -10,21 +10,40 @@ export default class DocumentView extends Component {
   componentDidMount() {
     // eslint-disable-next-line
     this.highlighter = rangy.createHighlighter();
+    this.setState({
+      highlightEnabled: false,
+    })
+
+    // Add class appliers
     this.highlighter.addClassApplier(rangy.createClassApplier("highlight", {
       ignoreWhiteSpace: true,
       tagNames: ["span"]
     }));
-    this.setState({
-      highlightEnabled: false,
-    })
+    this.highlighter.onHighlightAdded = (hl) => console.log(hl);
+    this.highlighter.onHighlightRemoved = (hl) => console.log(hl);
+
+    // Add stylesheets
     let sheet = document.createElement('style')
-    sheet.innerHTML = ".highlight {background-color: rgba(256,0,0,1);}";
+    sheet.innerHTML = ".highlight {background-color: rgba(256,0,0,0.6);}";
     document.body.appendChild(sheet);
   }
 
+  onHighlightAdded = (highlight) => {
+    // send AddHighlight to server
+
+  }
+
+  onHighlightRemoved = (highlight) => {
+    // send RemoveHighlight to server
+  }
+
+  componentWillUnmount() {
+    // TODO: remove added stylesheets
+  }
+
   highlightSelection = () => {
-      this.highlighter.highlightSelection("highlight", { containerElementId: 'presenter' })
-      window.getSelection().removeAllRanges();
+    this.highlighter.highlightSelection("highlight", { containerElementId: 'presenter' });
+    console.log(this.highlighter.serialize());
   }
 
   onHighlightButtonPress = () => {
@@ -51,21 +70,29 @@ export default class DocumentView extends Component {
     return (
       /* Used to center stuff. This will be Navigated */
       <div className="document-view-container">
-        <p className="section-header">{this.props.document.title}</p>
-        <div id="presenter" ref={(div) => this.presenter = div}>
-          <pre className="txtPresenter">{this.props.document.file}</pre>
-        </div>
-        <FloatingActionButton className="absolute-fab"
-          backgroundColor={'rgba(256,0,0,.6)'}
-          style={{ alignItems: 'center', justifyContect: 'center' }}
-          onTouchTap={this.onHighlightButtonPress}>
-          <FontIcon className="material-icons" color={'rgb(0,0,0)'} style={{ color: 'white' }}>border_color</FontIcon>
-        </FloatingActionButton>
+        {this.props.file ?
+          <div>
+            <p className="section-header">{this.props.document.title}</p>
+            <div id="presenter" ref={(div) => this.presenter = div}>
+              <pre className="txtPresenter">{this.props.file}</pre>
+            </div>
+            <FloatingActionButton className="absolute-fab"
+              backgroundColor={'rgba(256,0,0,.6)'}
+              style={{ alignItems: 'center', justifyContect: 'center' }}
+              onTouchTap={this.onHighlightButtonPress}>
+              <FontIcon className="material-icons" color={'rgb(0,0,0)'} style={{ color: 'white' }}>border_color</FontIcon>
+            </FloatingActionButton>
+          </div>
+
+          :
+
+          <p> Loading ... </p>
+        }
       </div >
     );
   }
 }
 
 DocumentView.propTypes = {
-  document: React.PropTypes.object.isRequired,
+  document: React.PropTypes.object,
 }

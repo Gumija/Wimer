@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FileService from './services/FileService';
+import DocumentService from './services/DocumentService';
 import DocumentView from './DocumentView';
 
 import { inject, observer } from 'mobx-react';
@@ -10,20 +10,26 @@ import { withRouter } from 'react-router-dom';
 @observer
 export default class DocumentViewContainer extends Component {
 
-  componentWillMount() {
+  constructor(props){
+    super(props);
+    this.state = {
+      file: null,
+    }
+  }
+
+  async componentDidMount() {
     // Load file into document object
     // eslint-disable-next-line
-    let document = this.props.documentStore.docInfos.find((doc) => doc.id == this.props.match.params.id)
-    document.file = FileService.getFileFromUrl(document.fileUrl);
+    let document = this.props.documentStore.docInfos.find((doc) => doc.id == this.props.match.params.id);
+    if (document) {
+      let file = await DocumentService.getFile(document);
+      this.setState({file: file});
+    }
   }
 
   render() {
     // eslint-disable-next-line
     let document = this.props.documentStore.docInfos.find((doc) => doc.id == this.props.match.params.id)
-    return (<DocumentView document={document} />);
+    return (<DocumentView document={document} file={this.state.file}/>);
   }
-}
-
-DocumentView.propTypes = {
-  document: React.PropTypes.object.isRequired,
 }
