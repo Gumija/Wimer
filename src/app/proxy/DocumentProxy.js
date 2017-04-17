@@ -5,6 +5,11 @@ class DocumentProxy {
     return await res.json();
   }
 
+  getDocument = async (id) => {
+    let res = await fetch(`/docInfos/${id}`);
+    return await res.json();
+  }
+
   getFile = async (id) => {
     let res = await fetch(`/download/${id}`);
     return await res.text();

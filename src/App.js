@@ -6,13 +6,11 @@ import DocumentStore from './app/stores/DocumentStore';
 import rangy from 'rangy/lib/rangy-core.js';
 import 'rangy/lib/rangy-highlighter';
 import 'rangy/lib/rangy-classapplier';
-import DocumentService from './app/services/DocumentService';
 
 class App extends Component {
 
   componentWillMount(){
     rangy.init();
-    DocumentService.getDocuments();
     console.dir(DocumentStore);
   }
 

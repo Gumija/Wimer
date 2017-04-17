@@ -4,7 +4,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 import Dropzone from 'react-dropzone';
-
+import DocumentService from './services/DocumentService';
 
 import './Home.css';
 
@@ -21,8 +21,8 @@ export default class Home extends Component {
     }
   }
 
-  componentWillMount() {
-
+  async componentWillMount() {
+    await DocumentService.getDocuments();
   }
 
   handleDrop = async (acceptedFiles) => {

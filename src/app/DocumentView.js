@@ -70,11 +70,11 @@ export default class DocumentView extends Component {
     return (
       /* Used to center stuff. This will be Navigated */
       <div className="document-view-container">
-        {this.props.file ?
+        {this.props.loading ?
           <div>
             <p className="section-header">{this.props.document.title}</p>
             <div id="presenter" ref={(div) => this.presenter = div}>
-              <pre className="txtPresenter">{this.props.file}</pre>
+              <pre className="txtPresenter">{this.props.file.file}</pre>
             </div>
             <FloatingActionButton className="absolute-fab"
               backgroundColor={'rgba(256,0,0,.6)'}
@@ -84,9 +84,10 @@ export default class DocumentView extends Component {
             </FloatingActionButton>
           </div>
 
-          :
+        :
 
           <p> Loading ... </p>
+        
         }
       </div >
     );

@@ -10,26 +10,17 @@ import { withRouter } from 'react-router-dom';
 @observer
 export default class DocumentViewContainer extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      file: null,
-    }
-  }
-
-  async componentDidMount() {
-    // Load file into document object
-    // eslint-disable-next-line
-    let document = this.props.documentStore.docInfos.find((doc) => doc.id == this.props.match.params.id);
-    if (document) {
-      let file = await DocumentService.getFile(document);
-      this.setState({file: file});
-    }
+  async componentWillMount() {
+    await DocumentService.getDocument(this.props.match.params.id);
+    let document = this.props.documentStore.docInfos.find((doc) => doc.id === this.props.match.params.id);    
+    this.props.documentStore.setCurrentFile({ id: document.id, file: await DocumentService.getFile(document) })
   }
 
   render() {
     // eslint-disable-next-line
-    let document = this.props.documentStore.docInfos.find((doc) => doc.id == this.props.match.params.id)
-    return (<DocumentView document={document} file={this.state.file}/>);
+    let document = this.props.documentStore.docInfos.find((doc) => doc.id === this.props.match.params.id);
+    let loading = document && this.props.documentStore.currentFile &&
+      document.id === this.props.documentStore.currentFile.id;
+    return (<DocumentView document={document} file={this.props.documentStore.currentFile} loading={loading} />);
   }
 }

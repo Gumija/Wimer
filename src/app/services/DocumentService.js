@@ -15,6 +15,19 @@ class DocumentService {
     }
   }
 
+  getDocument = async (id) => {
+    let documentJson = await proxy.getDocument(id);
+    for (let docinfo of documentJson) {
+      DocumentStore.addDocumentInfo({
+        id: docinfo.id,
+        title: docinfo.title,
+        preview: "",
+        last_opened: new Date(),
+        fileType: docinfo.type,
+      })
+    }
+  }
+
   getFile = async (document) => {
     let file = await proxy.getFile(document.id);
     return file;
