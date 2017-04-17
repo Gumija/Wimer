@@ -7,3 +7,10 @@
   margin-left: 10%;
   margin-right: 10%;
 }
+
+.loading_indicator {
+  align-self: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 60px;
+}

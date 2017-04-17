@@ -3,10 +3,10 @@ import './DocumentView.css';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import rangy from 'rangy/lib/rangy-core.js';
-
+import Digital from 'react-activity/lib/Digital';
 
 export default class DocumentView extends Component {
-  
+
   componentWillUnmount() {
     // TODO: remove added stylesheets
   }
@@ -32,8 +32,8 @@ export default class DocumentView extends Component {
     document.body.appendChild(sheet);
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps.highlightsString.str != this.props.highlightsString.str){
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.highlightsString.str !== this.props.highlightsString.str && this.presenter) {
       this.highlighter.deserialize(this.props.highlightsString.str)
     }
   }
@@ -70,7 +70,6 @@ export default class DocumentView extends Component {
       <div className="document-view-container">
         {this.props.loading ?
           <div>
-            <p className="section-header">{this.props.document.title}</p>
             <div id="presenter" ref={(div) => this.presenter = div}>
               <pre className="txtPresenter">{this.props.file.file}</pre>
             </div>
@@ -82,10 +81,10 @@ export default class DocumentView extends Component {
             </FloatingActionButton>
           </div>
 
-        :
-
-          <p> Loading ... </p>
-        
+          :
+          <div className="loading_indicator">
+            <Digital size={40} />
+          </div>
         }
       </div >
     );

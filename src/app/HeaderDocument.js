@@ -6,6 +6,7 @@ import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import Versions from './HeaderModules/Versions';
 import Share from './HeaderModules/Share';
 import UserManagement from './HeaderModules/UserManagement';
+import Dots from 'react-activity/lib/Dots';
 
 import {
   withRouter,
@@ -34,7 +35,7 @@ export default class Header extends Component {
 
               :
 
-              'Loading ...'
+              <Dots size={16} color="#FFF" />
             }
           </div>
           : "NULL"}
