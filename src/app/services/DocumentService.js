@@ -6,7 +6,7 @@ class DocumentService {
     let documentJson = await proxy.getDocuments();
     for (let docinfo of documentJson) {
       DocumentStore.addDocumentInfo({
-        id: docinfo.id,
+        id: parseInt(docinfo.id, 10),
         title: docinfo.title,
         preview: "",
         last_opened: new Date(),
@@ -19,7 +19,7 @@ class DocumentService {
     let documentJson = await proxy.getDocument(id);
     for (let docinfo of documentJson) {
       DocumentStore.addDocumentInfo({
-        id: docinfo.id,
+        id: parseInt(docinfo.id, 10),
         title: docinfo.title,
         preview: "",
         last_opened: new Date(),

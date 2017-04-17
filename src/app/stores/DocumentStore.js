@@ -9,20 +9,14 @@ class DocumentStore {
     file: '',
   };
 
+  @observable highlightsString = {
+    id: -1,
+    str: '',
+  }
+
   @computed get recentDocs() {
     return this.docInfos.sort((a, b) => a.last_opened > b.last_opened ? -1 : 1);
   }
-
-  @computed get uploadedDocs() {
-    return this.docInfos.sort((a, b) => a.uploaded > b.uploaded ? -1 : 1);
-  }
-
-  @observable highlights = [
-    {
-      id: 0,
-
-    }
-  ];
 
   @action addDocumentInfo(docinfo) {
     let doc = this.docInfos.find(doc => doc.id === docinfo.id)
@@ -34,6 +28,10 @@ class DocumentStore {
 
   @action setCurrentFile(value) {
     this.currentFile = value;
+  }
+
+  @action setHighlights(value) {
+    this.highlightsString = value;
   }
 
 }

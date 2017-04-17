@@ -22,10 +22,10 @@ export default class Header extends Component {
       <AppBar
         title={this.props.match ?
           <div >
-            {this.props.documentStore.docInfos.find((d) => d.id === this.props.match.params.id) ?
+            {this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)) ?
               <div>
                 <p style={{ margin: 0, display: 'inline-block' }}>
-                  {this.props.documentStore.docInfos.find((d) => d.id === this.props.match.params.id).title}
+                  {this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)).title}
                 </p>
                 <IconButton>
                   <FontIcon className="material-icons" color={'white'}>edit</FontIcon>

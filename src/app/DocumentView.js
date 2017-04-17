@@ -6,6 +6,10 @@ import rangy from 'rangy/lib/rangy-core.js';
 
 
 export default class DocumentView extends Component {
+  
+  componentWillUnmount() {
+    // TODO: remove added stylesheets
+  }
 
   componentDidMount() {
     // eslint-disable-next-line
@@ -19,8 +23,8 @@ export default class DocumentView extends Component {
       ignoreWhiteSpace: true,
       tagNames: ["span"]
     }));
-    this.highlighter.onHighlightAdded = (hl) => console.log(hl);
-    this.highlighter.onHighlightRemoved = (hl) => console.log(hl);
+    this.highlighter.onHighlightAdded = this.props.onHighlightAdded;
+    this.highlighter.onHighlightRemoved = this.props.onHighlightRemoved;
 
     // Add stylesheets
     let sheet = document.createElement('style')
@@ -28,18 +32,12 @@ export default class DocumentView extends Component {
     document.body.appendChild(sheet);
   }
 
-  onHighlightAdded = (highlight) => {
-    // send AddHighlight to server
-
+  componentDidUpdate(prevProps, prevState){
+    if(prevProps.highlightsString.str != this.props.highlightsString.str){
+      this.highlighter.deserialize(this.props.highlightsString.str)
+    }
   }
 
-  onHighlightRemoved = (highlight) => {
-    // send RemoveHighlight to server
-  }
-
-  componentWillUnmount() {
-    // TODO: remove added stylesheets
-  }
 
   highlightSelection = () => {
     this.highlighter.highlightSelection("highlight", { containerElementId: 'presenter' });
