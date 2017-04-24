@@ -137,7 +137,7 @@ export default class DocumentView extends Component {
               <ReactMarkdown source={this.props.file.file} />
             </div>
             <FloatingActionButton className="absolute-eraser"
-              backgroundColor={'rgba(220,220,220,.7)'}
+              backgroundColor={'rgba(240,240,240,1)'}
               style={this.state.unhighlightEnabled ?
                 { alignItems: 'center', justifyContect: 'center', border: 1, borderStyle: 'dashed', borderColor: 'grey' }
                 :
@@ -160,7 +160,7 @@ export default class DocumentView extends Component {
               <FontIcon className="material-icons" style={{ color: 'white' }}>border_color</FontIcon>
             </FloatingActionButton>
             <FloatingActionButton className={'absolute-add'}
-              backgroundColor={'rgba(255,255,255,.6)'}
+              backgroundColor={'rgba(255,255,255,1)'}
               style={{ alignItems: 'center', justifyContect: 'center' }}
               onTouchTap={this.onShowColorColorPicker}
               mini={true}>
@@ -168,11 +168,14 @@ export default class DocumentView extends Component {
             </FloatingActionButton>
             {this.state.showColorPicker &&
               <div>
-                <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }} 
+                <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}
                   onClick={this.onShowColorColorPicker}
-                  />
+                />
                 <div style={{ position: 'fixed', bottom: 70, right: 78, transform: 'rotate(180deg)' }}>
-                  <GithubPicker />
+                  <GithubPicker colors={[
+                    /*'rgba(255,0,0,0.6)',*/ 'rgba(184, 0, 0, 0.6)', 'rgba(219, 62, 0, 0.6)', 'rgba(252, 203, 0, 0.6)', 'rgba(0, 139, 2, 0.6)',
+                    'rgba(0, 107, 118, 0.6)', 'rgba(18, 115, 222, 0.6)', 'rgba(0, 77, 207, 0.6)', 'rgba(83, 0, 235, 0.6)',
+                  ]} />
                 </div>
               </div>
             }
