@@ -2,10 +2,19 @@ import React, { Component } from 'react';
 import './DocumentView.css';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
+import SvgIcon from 'material-ui/SvgIcon';
 import rangy from 'rangy/lib/rangy-core.js';
 import Digital from 'react-activity/lib/Digital';
 
 export default class DocumentView extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      highlightEnabled: false,
+      unhighlightEnabled: false,
+    }
+  }
 
   componentWillUnmount() {
     // TODO: remove added stylesheets
@@ -41,30 +50,76 @@ export default class DocumentView extends Component {
 
   highlightSelection = () => {
     this.highlighter.highlightSelection("highlight", { containerElementId: 'presenter' });
-    console.log(this.highlighter.serialize());
+    window.getSelection().removeAllRanges();
+  }
+
+  unhighlightSelection = () => {
+    this.highlighter.unhighlightSelection();
+    window.getSelection().removeAllRanges();
   }
 
   onHighlightButtonPress = () => {
     // eslint-disable-next-line
-    if (window.getSelection().rangeCount > 0 && window.getSelection().getRangeAt(0).toString() != "") {
+    if (!this.state.unhighlightEnabled && window.getSelection().rangeCount > 0 && window.getSelection().getRangeAt(0).toString() != "") {
       // A range is selected, highlight it
       this.highlightSelection();
       return;
     } else {
       // No range is selected (Un)bind events and highlight on mouseup/touchend (setting up auto highlighting)
       if (this.state.highlightEnabled) {
-        this.setState({ highlightEnabled: false });
-        this.presenter.addEventListener('mouseup', this.highlightSelection);
-        this.presenter.addEventListener('touchend', this.highlightSelection);
+        this.disableHighlight();
       } else {
-        this.setState({ highlightEnabled: true });
-        this.presenter.removeEventListener('mouseup', this.highlightSelection);
-        this.presenter.removeEventListener('touchend', this.highlightSelection);
+        this.enableHighlight();
+        this.disableUnhighlight();
       }
     }
   }
 
+  enableHighlight = () => {
+    this.setState({ highlightEnabled: true });
+    this.presenter.addEventListener('mouseup', this.highlightSelection);
+    this.presenter.addEventListener('touchend', this.highlightSelection);
+  }
+
+  disableHighlight = () => {
+    this.setState({ highlightEnabled: false });
+    this.presenter.removeEventListener('mouseup', this.highlightSelection);
+    this.presenter.removeEventListener('touchend', this.highlightSelection);
+  }
+
+  onUnhighlightButtonPress = () => {
+    // eslint-disable-next-line
+    if (!this.state.highlightEnabled && window.getSelection().rangeCount > 0 && window.getSelection().getRangeAt(0).toString() != "") {
+      // A range is selected, highlight it
+      this.unhighlightSelection();
+      return;
+    } else {
+      // No range is selected (Un)bind events and highlight on mouseup/touchend (setting up auto highlighting)
+      if (this.state.unhighlightEnabled) {
+        this.disableUnhighlight();
+      } else {
+        this.enableUnhighlight();
+        this.disableHighlight();
+      }
+    }
+  }
+
+  enableUnhighlight = () => {
+    this.setState({ unhighlightEnabled: true });
+    this.presenter.addEventListener('mouseup', this.unhighlightSelection);
+    this.presenter.addEventListener('touchend', this.unhighlightSelection);
+  }
+
+  disableUnhighlight = () => {
+    this.setState({ unhighlightEnabled: false });
+    this.presenter.removeEventListener('mouseup', this.unhighlightSelection);
+    this.presenter.removeEventListener('touchend', this.unhighlightSelection);
+  }
+
+
+
   render() {
+    console.log('h, unh', this.state.highlightEnabled, this.state.unhighlightEnabled)
     return (
       /* Used to center stuff. This will be Navigated */
       <div className="document-view-container">
@@ -73,11 +128,28 @@ export default class DocumentView extends Component {
             <div id="presenter" ref={(div) => this.presenter = div}>
               <pre className="txtPresenter">{this.props.file.file}</pre>
             </div>
-            <FloatingActionButton className="absolute-fab"
+            <FloatingActionButton className="absolute-eraser"
+              backgroundColor={'grey'}
+              style={this.state.unhighlightEnabled ?
+                { alignItems: 'center', justifyContect: 'center', border: 1, borderStyle: 'dashed', borderColor: 'grey' }
+                :
+                { alignItems: 'center', justifyContect: 'center' }
+              }
+              onTouchTap={this.onUnhighlightButtonPress}
+              mini={true} >
+              <SvgIcon style={{ color: 'white' }}>
+                <path fill="white" d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18" />
+              </SvgIcon>
+            </FloatingActionButton>
+            <FloatingActionButton className={'absolute-fab '}
               backgroundColor={'rgba(256,0,0,.6)'}
-              style={{ alignItems: 'center', justifyContect: 'center' }}
+              style={this.state.highlightEnabled ?
+                { alignItems: 'center', justifyContect: 'center', border: 1, borderStyle: 'dashed', borderColor: 'rgba(256,0,0,0.6)' }
+                :
+                { alignItems: 'center', justifyContect: 'center' }
+              }
               onTouchTap={this.onHighlightButtonPress}>
-              <FontIcon className="material-icons" color={'rgb(0,0,0)'} style={{ color: 'white' }}>border_color</FontIcon>
+              <FontIcon className="material-icons" style={{ color: 'white' }}>border_color</FontIcon>
             </FloatingActionButton>
           </div>
 

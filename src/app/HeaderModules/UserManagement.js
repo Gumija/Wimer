@@ -15,10 +15,9 @@ export default class UserManagerment extends Component {
   render() {
     return (
       <div>
-        <a href='/auth/google'>Login with google</a>
-      <Link to={'/auth/google'}>
-        <RaisedButton onTouchTap={this.LoginPressed} label="Login" style={{ marginLeft: 12 }} />
-      </Link>
+        <Link to={'/auth/google'}>
+          <RaisedButton onTouchTap={this.LoginPressed} label="Login" style={{ marginLeft: 12 }} />
+        </Link>
       </div>
     );
   }

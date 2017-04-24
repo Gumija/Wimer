@@ -7,6 +7,8 @@ import Versions from './HeaderModules/Versions';
 import Share from './HeaderModules/Share';
 import UserManagement from './HeaderModules/UserManagement';
 import Dots from 'react-activity/lib/Dots';
+import TextField from 'material-ui/TextField';
+import DocumentService from './services/DocumentService';
 
 import {
   withRouter,
@@ -18,6 +20,32 @@ import { inject, observer } from 'mobx-react';
 @observer
 export default class Header extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      editting: false,
+      title: '',
+    }
+  }
+
+  editTitle = () => {
+    console.log('editted', this.state.editting);
+    if (this.state.editting) {
+      if (this.state.title) {
+        this.setState({ editting: !this.state.editting });
+        let document = this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10));
+        document.title = this.state.title;
+        // TODO: send to server title
+        DocumentService.updateTitle(document);
+      }
+    } else {
+      this.setState({
+        editting: !this.state.editting,
+        title: this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)).title
+      });
+    }
+  }
+
   render() {
     return (
       <AppBar
@@ -25,12 +53,23 @@ export default class Header extends Component {
           <div >
             {this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)) ?
               <div>
-                <p style={{ margin: 0, display: 'inline-block' }}>
-                  {this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)).title}
-                </p>
-                <IconButton>
-                  <FontIcon className="material-icons" color={'white'}>edit</FontIcon>
+                {this.state.editting ?
+                  <TextField
+                    hintText="Document title"
+                    errorText={!this.state.title ? "Title cannot be empty" : ""}
+                    value={this.state.title}
+                    onChange={(event, value) => this.setState({ title: value })}
+                  />
+                  :
+                  <p style={{ margin: 0, display: 'inline-block' }}>
+                    {this.props.documentStore.docInfos.find((d) => d.id === parseInt(this.props.match.params.id, 10)).title}
+                  </p>
+                }
+                {(!this.state.editting || this.state.title) &&
+                <IconButton onTouchTap={this.editTitle}>
+                  <FontIcon className="material-icons" color={'white'}>{this.state.editting ? 'done' : 'edit'}</FontIcon>
                 </IconButton>
+                }
               </div>
 
               :

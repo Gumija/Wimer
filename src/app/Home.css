@@ -16,3 +16,10 @@
   right: 0px;
   bottom: 0px;
 }
+
+.absolute-eraser{
+  position: fixed;
+  margin: 12px;
+  right: 0px;
+  bottom: 64px;
+}

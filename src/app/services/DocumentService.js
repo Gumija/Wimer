@@ -32,6 +32,10 @@ class DocumentService {
     let file = await proxy.getFile(document.id);
     return file;
   }
+
+  updateTitle(document) {
+    proxy.updateTitle(document.id, document.title);
+  }
 }
 
 var documentService = new DocumentService();

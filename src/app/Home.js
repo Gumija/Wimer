@@ -93,25 +93,36 @@ export default class Home extends Component {
           open={this.state.open}
           onRequestClose={() => this.setState({ open: false })}>
           <Dropzone
-            style={{ flex: 1, alignSelf: 'stretch', backgroundColor: 'lightgrey', height: 240 }}
-            activeStyle={{ backgroundColor: 'green' }}
+            style={{ backgroundColor: 'lightgrey', height: 240, display: 'flex' }}
+            activeStyle={{ backgroundColor: 'lightgreen' }}
             rejectStyle={{ backgroundColor: 'red' }}
             accept={'text/plain,application/pdf'}
             maxSize={120000000}
             multiple={false}
             onDrop={this.handleDrop}>
             {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
-              return (<div>
-                {!isDragActive && !isDragReject &&
-                  <FontIcon className="material-icons">file_upload</FontIcon>}
-                {isDragActive &&
-                  <FontIcon className="material-icons">done</FontIcon>
-                  /*<FontIcon className="material-icons">check_circle</FontIcon>*/
-                }
-                {isDragReject &&
-                  <FontIcon className="material-icons">block</FontIcon>}
-                <p>Drop a file here or click to select one</p>
-              </div>)
+              return (
+                <span style={{ display: 'flex', flex: 1, flexDirection: 'column', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+                  {!isDragActive && !isDragReject &&
+                    <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+                      <FontIcon className="material-icons" style={{ fontSize: 120 }} color='grey'>file_upload</FontIcon>
+                      <p style={{ color: 'grey' }}>Drop a file here or click to select one</p>
+                    </div>
+                  }
+                  {isDragActive &&
+                    <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+                      <FontIcon className="material-icons" style={{ fontSize: 120 }} color='green'>done</FontIcon>
+                      {/*<FontIcon className="material-icons">check_circle</FontIcon>*/}
+                      <p style={{ color: 'green' }}>Drop a file here or click to select one</p>
+                    </div>
+                  }
+                  {isDragReject &&
+                    <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+                      <FontIcon className="material-icons" style={{ fontSize: 120 }} color='darkred'>block</FontIcon>
+                      <p style={{ color: 'darkred' }}>Drop a file here or click to select one</p>
+                    </div>
+                  }
+                </span>)
             }}
           </Dropzone>
         </Dialog>
