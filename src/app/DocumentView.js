@@ -5,6 +5,7 @@ import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
 import rangy from 'rangy/lib/rangy-core.js';
 import Digital from 'react-activity/lib/Digital';
+import ReactMarkdown from 'react-markdown';
 
 export default class DocumentView extends Component {
 
@@ -126,10 +127,10 @@ export default class DocumentView extends Component {
         {this.props.loading ?
           <div>
             <div id="presenter" ref={(div) => this.presenter = div}>
-              <pre className="txtPresenter">{this.props.file.file}</pre>
+              <ReactMarkdown source={this.props.file.file} />
             </div>
             <FloatingActionButton className="absolute-eraser"
-              backgroundColor={'grey'}
+              backgroundColor={'rgba(220,220,220,.7)'}
               style={this.state.unhighlightEnabled ?
                 { alignItems: 'center', justifyContect: 'center', border: 1, borderStyle: 'dashed', borderColor: 'grey' }
                 :
@@ -137,8 +138,8 @@ export default class DocumentView extends Component {
               }
               onTouchTap={this.onUnhighlightButtonPress}
               mini={true} >
-              <SvgIcon style={{ color: 'white' }}>
-                <path fill="white" d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18" />
+              <SvgIcon>
+                <path fill="grey" d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18" />
               </SvgIcon>
             </FloatingActionButton>
             <FloatingActionButton className={'absolute-fab '}
