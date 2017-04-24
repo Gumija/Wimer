@@ -6,6 +6,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import rangy from 'rangy/lib/rangy-core.js';
 import Digital from 'react-activity/lib/Digital';
 import ReactMarkdown from 'react-markdown';
+import { GithubPicker } from 'react-color';
 
 export default class DocumentView extends Component {
 
@@ -117,6 +118,12 @@ export default class DocumentView extends Component {
     this.presenter.removeEventListener('touchend', this.unhighlightSelection);
   }
 
+  onShowColorColorPicker = () => {
+    this.setState({
+      showColorPicker: !this.state.showColorPicker,
+    });
+  }
+
 
 
   render() {
@@ -152,6 +159,23 @@ export default class DocumentView extends Component {
               onTouchTap={this.onHighlightButtonPress}>
               <FontIcon className="material-icons" style={{ color: 'white' }}>border_color</FontIcon>
             </FloatingActionButton>
+            <FloatingActionButton className={'absolute-add'}
+              backgroundColor={'rgba(255,255,255,.6)'}
+              style={{ alignItems: 'center', justifyContect: 'center' }}
+              onTouchTap={this.onShowColorColorPicker}
+              mini={true}>
+              <FontIcon className="material-icons" style={{ color: 'grey' }}>add</FontIcon>
+            </FloatingActionButton>
+            {this.state.showColorPicker &&
+              <div>
+                <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }} 
+                  onClick={this.onShowColorColorPicker}
+                  />
+                <div style={{ position: 'fixed', bottom: 70, right: 78, transform: 'rotate(180deg)' }}>
+                  <GithubPicker />
+                </div>
+              </div>
+            }
           </div>
 
           :
