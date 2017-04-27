@@ -1,22 +1,22 @@
 
 class DocumentProxy {
   getDocuments = async () => {
-    let res = await fetch('/docInfos');
+    let res = await fetch('/documents');
     return await res.json();
   }
 
   getDocument = async (id) => {
-    let res = await fetch(`/docInfos/${id}`);
+    let res = await fetch(`/documents/${id}`);
     return await res.json();
   }
 
   getFile = async (id) => {
-    let res = await fetch(`/download/${id}`);
+    let res = await fetch(`/documents/download/${id}`);
     return await res.text();
   }
 
   updateTitle = async (id, title) => {
-    fetch(`/document/update/${id}`, {
+    fetch(`/documents/update/${id}`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
